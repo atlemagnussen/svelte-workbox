@@ -1,0 +1,22 @@
+{
+    "extends": "@tsconfig/svelte/tsconfig.json",
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "public/*"
+    ],
+    "compilerOptions": {
+        "module": "esnext",
+        "lib": [
+            "es2018",
+            "DOM"
+        ],
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "types": [
+            "svelte"
+        ]
+    }
+}
