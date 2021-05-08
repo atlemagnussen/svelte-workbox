@@ -8,7 +8,8 @@ import typescript from "@rollup/plugin-typescript"
 import css from "rollup-plugin-css-only"
 import serve from "rollup-plugin-serve"
 
-const production = !process.env.ROLLUP_WATCH;
+const production = !process.env.ROLLUP_WATCH
+let env = production ? "production" : "development"
 
 export default {
 	input: 'src/main.ts',
@@ -35,6 +36,11 @@ export default {
 			sourceMap: !production,
 			inlineSources: !production
 		}),
+		replace({
+			"process.env.NODE_ENV": JSON.stringify(env),
+			__buildDate__: () => JSON.stringify(new Date()),
+			__buildVersion: 15,
+		}),
 		!production && serve({
             contentBase: "public",
             open: true,
@@ -42,7 +48,7 @@ export default {
             port: 8000,
             historyApiFallback: true,
         }),
-		!production && livereload('public'),
+		!production && livereload("public"),
 		production && terser()
 	],
 	watch: {
