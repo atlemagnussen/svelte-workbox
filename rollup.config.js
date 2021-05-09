@@ -83,6 +83,6 @@ export default [{
     output: {
         sourcemap: true,
         format: "amd",
-        dir: "public/dist",
+        dir: "public",
     },
 }]

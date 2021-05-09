@@ -10,6 +10,7 @@ const app = new App({
 export default app
 
 if ('serviceWorker' in navigator) {
-    const registration = await navigator.serviceWorker.register(
-        "./dist/sw.js");
+    const registration = await navigator.serviceWorker.register("./sw.js", {
+		"scope": "/"
+	})
 }

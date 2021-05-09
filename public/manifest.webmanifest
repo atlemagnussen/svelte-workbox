@@ -1,0 +1,27 @@
+{
+    "short_name": "Test workbox",
+    "name": "testwork",
+    "description": "Test workbox",
+    "icons": [
+        {
+            "src": "https://storage.googleapis.com/atle-static/icons/icon-96.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "https://storage.googleapis.com/atle-static/icons/icon-128.png",
+            "type": "image/png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "https://storage.googleapis.com/atle-static/icons/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#FFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#367ae0"
+}
