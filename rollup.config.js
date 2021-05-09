@@ -7,11 +7,19 @@ import sveltePreprocess from "svelte-preprocess"
 import typescript from "@rollup/plugin-typescript"
 import css from "rollup-plugin-css-only"
 import serve from "rollup-plugin-serve"
+import replace from "@rollup/plugin-replace"
+import OMT from "@surma/rollup-plugin-off-main-thread"
+//import workboxInjectManifest from "rollup-plugin-workbox-inject"
+import { injectManifest } from "rollup-plugin-workbox"
+//import { injectManifest } from "workbox-build"
+import workboxConfig from "./workbox-config"
+
 
 const production = !process.env.ROLLUP_WATCH
 let env = production ? "production" : "development"
-
-export default {
+console.log(`process.env.NODE_ENV=${process.env.NODE_ENV}`)
+console.log(`process.env.ROLLUP_WATCH=${process.env.ROLLUP_WATCH}`)
+export default [{
 	input: 'src/main.ts',
 	output: {
         sourcemap: true,
@@ -33,13 +41,8 @@ export default {
 		}),
 		commonjs(),
 		typescript({
-			sourceMap: !production,
-			inlineSources: !production
-		}),
-		replace({
-			"process.env.NODE_ENV": JSON.stringify(env),
-			__buildDate__: () => JSON.stringify(new Date()),
-			__buildVersion: 15,
+			sourceMap: true,
+			inlineSources: true
 		}),
 		!production && serve({
             contentBase: "public",
@@ -54,4 +57,38 @@ export default {
 	watch: {
 		clearScreen: false
 	}
-};
+},{
+    input: "src/sw.ts",
+    manualChunks: (id) => {
+        if (!id.includes("/node_modules/")) {
+            return undefined
+        }
+
+        const chunkNames = ["workbox"]
+        return chunkNames.find((chunkName) => id.includes(chunkName)) || "misc"
+    },
+    plugins: [
+        resolve({
+            browser: true,
+        }),
+        commonjs(),
+        replace({
+            "process.env.NODE_ENV": JSON.stringify(env),
+        }),
+        typescript(),
+		OMT(),
+		injectManifest(workboxConfig)
+		// .then(({ count, filePaths, size, warnings }) => {
+		// 	console.log(`Generated ${workboxConfig.swDest}, which will precache ${count} files (${size} bytes)`)
+		// 	for (let f in filePaths) console.log(filePaths[f])
+		// 	for (let w in warnings) console.log(warnings[w])
+		// })
+		,
+        terser(),
+    ],
+    output: {
+        sourcemap: true,
+        format: "amd",
+        dir: "public/dist",
+    },
+}]

@@ -5,6 +5,11 @@ const app = new App({
 	props: {
 		name: "workbox"
 	}
-});
+})
 
-export default app;
+export default app
+
+if ('serviceWorker' in navigator) {
+    const registration = await navigator.serviceWorker.register(
+        "./dist/sw.js");
+}
