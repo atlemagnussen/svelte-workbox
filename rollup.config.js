@@ -77,13 +77,7 @@ export default [{
         }),
         typescript(),
 		OMT(),
-		injectManifest(workboxConfig)
-		// .then(({ count, filePaths, size, warnings }) => {
-		// 	console.log(`Generated ${workboxConfig.swDest}, which will precache ${count} files (${size} bytes)`)
-		// 	for (let f in filePaths) console.log(filePaths[f])
-		// 	for (let w in warnings) console.log(warnings[w])
-		// })
-		,
+		injectManifest(workboxConfig),
         terser(),
     ],
     output: {

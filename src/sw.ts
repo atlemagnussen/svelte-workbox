@@ -8,6 +8,8 @@ import {CacheFirst} from "workbox-strategies"
 // routing, and other logic:
 precacheAndRoute(self.__WB_MANIFEST);
 registerRoute(
-    ({request}) => request.destination === "image",
-    new CacheFirst({cacheName: "images"}),
+    ({request}) =>
+        request.destination === "image",
+        new CacheFirst({cacheName: "images"
+    })
 );
